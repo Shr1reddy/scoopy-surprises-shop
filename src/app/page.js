@@ -437,6 +437,17 @@ function Step4({ order, scoop, packing, scoopPrice, packingPrice, videoPrice, to
         <span>🔒</span>
         <span>100% secure payment powered by Razorpay</span>
       </div>
+
+      {/* Test mode helper — remove before going live */}
+      {process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID?.startsWith('rzp_test_') && (
+        <div className="bg-yellow-50 border border-yellow-300 rounded-2xl p-4 text-xs text-yellow-800">
+          <p className="font-bold mb-1">🧪 Test Mode — Sample Payment Details</p>
+          <p>Card: <span className="font-mono font-semibold">4111 1111 1111 1111</span></p>
+          <p>Expiry: <span className="font-mono font-semibold">12/26</span> &nbsp; CVV: <span className="font-mono font-semibold">123</span></p>
+          <p className="mt-1">When OTP is asked, enter: <span className="font-mono font-semibold">1234</span></p>
+          <p className="mt-1">Or use UPI ID: <span className="font-mono font-semibold">success@razorpay</span></p>
+        </div>
+      )}
     </div>
   );
 }
