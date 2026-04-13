@@ -1,13 +1,14 @@
 import Razorpay from 'razorpay';
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
-
 export async function POST(request) {
   try {
     const { amount, orderDetails } = await request.json();
+
+    // Lazy-init so build-time module evaluation never touches env vars
+    const razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
+    });
 
     if (!amount || amount < 1) {
       return Response.json({ error: 'Invalid amount' }, { status: 400 });
