@@ -588,8 +588,11 @@ export default function OrderPage() {
       };
 
       const rzp = new window.Razorpay(options);
-      rzp.on('payment.failed', function () {
-        alert('Payment failed. Please try again or use a different payment method.');
+      rzp.on('payment.failed', function (response) {
+        const reason = response?.error?.description || response?.error?.reason || 'Unknown error';
+        const code = response?.error?.code || '';
+        alert(`Payment failed: ${reason} (${code})\n\nPlease try again.`);
+        console.error('Razorpay payment.failed:', JSON.stringify(response?.error, null, 2));
         setProcessing(false);
       });
       rzp.open();
